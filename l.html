@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Language Translation</title>
+    <!-- Include Axios from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&family=Sacramento&display=swap" rel="stylesheet">
+    <style>
+        /* General Body Styling */
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-image: url('https://images.unsplash.com/photo-1521747116042-5a810fda9664'); /* Soft and cute background */
+            background-size: cover;
+            background-position: center;
+            color:  #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-attachment: fixed;
+
+
+        }
+
+        /* Main Container */
+        .container {
+            background-color:  rgba(255, 255, 255, 0.8) ; /* Semi-transparent white background */
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+            padding: 40px;
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        /* Header Styling */
+        h1 {
+            font-family: 'Sacramento', cursive;
+            font-size: 3em;
+            color: #ff6f61; /* Soft coral color */
+            margin-bottom: 30px;
+            font-weight: bold;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3); /* Text shadow for a more polished look */
+        }
+
+        /* Form Container */
+        .form-container {
+            margin-bottom: 30px;
+        }
+
+        input, textarea, select {
+            padding: 14px;
+            margin: 12px 0;
+            width: 100%;
+            border: 1px solid #e0e0e0; /* Soft border */
+            border-radius: 8px;
+            font-size: 16px;
+            background-color: #FDF1F3; /* Light gray background */
+            color: #333; /* Darker text */
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #ff6f61; /* Coral border on focus */
+            background-color: #ffffff;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* Button Styling */
+        button {
+            padding: 14px 28px;
+            background-color: #ff6f61; /* Coral button */
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold; /* Bold button text */
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #bdfcc9; /* Lighter coral on hover */
+            transform: scale(1.05);
+        }
+
+        /* Output Styling */
+        #output {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #ff6f61; /* Coral color for output */
+            font-weight: bold; /* Bold text for output */
+            text-align: center;
+            background-color: #ffefef; /* Light coral background */
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #f1c7c3;
+        }
+
+        /* Style for the dropdown menu */
+        select {
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Language Exchange Platform.</h1>
+
+        <div class="form-container">
+            <input type="text" id="name" placeholder="Enter your name" required><br>
+            <textarea id="message" placeholder="Enter message to translate" required></textarea><br>
+            <select id="language">
+               <option value="es">Spanish</option>
+
+  <!-- International languages -->
+  <option value="fr">French</option>
+  <option value="de">German</option>
+  <option value="it">Italian</option>
+  <option value="ja">Japanese</option>
+  <option value="ko">Korean</option>
+  <option value="en">English</option>
+  <option value="zh">Chinese</option>
+  <option value="ru">Russian</option>
+  <option value="pt">Portuguese</option>
+  <option value="ar">Arabic</option>
+  <option value="hi">Hindi</option>
+  <option value="bn">Bengali</option>
+  <option value="pa">Punjabi</option>
+  <option value="ur">Urdu</option>
+  <option value="tr">Turkish</option>
+  <option value="vi">Vietnamese</option>
+  <option value="th">Thai</option>
+  <option value="fa">Persian (Farsi)</option>
+  <option value="sw">Swahili</option>
+  <option value="nl">Dutch</option>
+  <option value="pl">Polish</option>
+  <option value="ro">Romanian</option>
+  <option value="el">Greek</option>
+  <option value="he">Hebrew</option>
+  <option value="no">Norwegian</option>
+  <option value="sv">Swedish</option>
+  <option value="fi">Finnish</option>
+  <option value="cs">Czech</option>
+  <option value="hu">Hungarian</option>
+  <option value="id">Indonesian</option>
+
+  <!-- Indian regional languages -->
+  <option value="as">Assamese</option>
+  <option value="bh">Bhojpuri</option>
+  <option value="gu">Gujarati</option>
+  <option value="kn">Kannada</option>
+  <option value="ml">Malayalam</option>
+  <option value="mr">Marathi</option>
+  <option value="ne">Nepali</option>
+  <option value="or">Odia (Oriya)</option>
+  <option value="sa">Sanskrit</option>
+  <option value="sd">Sindhi</option>
+  <option value="ta">Tamil</option>
+  <option value="te">Telugu</option>
+  <option value="ma">Maithili</option>
+  <option value="ks">Kashmiri</option>
+  <option value="mni">Manipuri (Meitei)</option>
+  <option value="doi">Dogri</option>
+  <option value="kok">Konkani</option>
+  <option value="sant">Santali</option>
+  <option value="bodo">Bodo</option>
+</select>
+            <button onclick="translateMessage()">Translate</button>
+            <button onclick="testAPI()" style="background-color: #4CAF50; margin-left: 10px;">Test API</button>
+        </div>
+
+        <div id="output"></div>
+    </div>
+
+    <script>
+        // Function to test API connectivity
+        function testAPI() {
+            document.getElementById("output").textContent = "Testing API connection...";
+            
+            axios.get('/api/test')
+                .then(function(response) {
+                    document.getElementById("output").textContent = `API Test Result: ${response.data.status}`;
+                })
+                .catch(function(error) {
+                    document.getElementById("output").textContent = "API connection failed. Check console for details.";
+                    console.error("API Test Error:", error);
+                });
+        }
+        
+        // Function to handle the translation request
+        function translateMessage() {
+            const name = document.getElementById("name").value;
+            const message = document.getElementById("message").value;
+            const language = document.getElementById("language").value;
+
+            // Show loading message
+            document.getElementById("output").textContent = "Translating...";
+
+            // Use axios to send the translation request to the backend
+            axios.get('/api/translate', {
+                params: {
+                    message: message,
+                    language: language
+                }
+            })
+            .then(function(response) {
+                // Show the translated message in the output div
+                document.getElementById("output").textContent = `${name}, your message in ${language} is: ${response.data.translatedMessage}`;
+            })
+            .catch(function(error) {
+                // Handle error if translation fails
+                console.error("Error during translation:", error);
+                
+                // Display detailed error information
+                let errorMessage = "Sorry, there was an error with translation.";
+                
+                if (error.response && error.response.data) {
+                    const errorData = error.response.data;
+                    if (typeof errorData.error === 'object') {
+                        errorMessage += ` Error: ${JSON.stringify(errorData.error)}`;
+                    } else {
+                        errorMessage += ` Error: ${errorData.error || 'Unknown error'}`;
+                    }
+                    console.error("Detailed error:", errorData.details || 'No details available');
+                }
+                
+                document.getElementById("output").textContent = errorMessage;
+            });
+        }
+    </script>
+</body>
+</html>
